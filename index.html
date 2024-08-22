@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="./favicon.ico" />
+  <title>Fencing exercise machine</title>
+</head>
+<body>
+  <div class="container">
+
+    <div class="topbar">
+
+      <div class="select-area">
+        <p>Program</p>
+        <select name="quantity of colors" id="color-selector">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+        </select>
+      </div>
+
+      <div class="sound"></div>
+
+      <div class="options">
+        <img src="./icons/settings.png"></img>
+        <div class="options-list">
+          <ul>
+              <li>
+                <div class="option-item">
+                  <label for="exerciseDuration">Exercise duration:</label>
+                  <input type="number" placeholder="60" value="60" id="exerciseDuration" maxlength="2">
+                  <p>sec</p>
+              </div>
+            </li>
+
+            <li><div class="option-item">
+              <label for="exerciseTimeout">Min timeout betwin actions:</label>
+              <input type="number" placeholder="5" value="5" id="exerciseTimeout" maxlength="2">
+              <p>sec</p>
+            </li>
+
+            <li><div class="option-item">
+              <label for="minExercise">Min number of action:</label>
+              <input type="number" placeholder="5" value="5" id="minExercise" maxlength="2">
+              <p></p>
+            </li>
+            
+            <li><div class="option-item">
+              <label for="maxExercise">Max number of action:</label>
+              <input type="number" placeholder="10" value="10" id="maxExercise" maxlength="2">
+              <p></p>
+            </li>  
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="color"></div>
+
+    <button class="start-btn">Start</button>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

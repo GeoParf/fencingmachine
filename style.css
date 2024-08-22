@@ -1,0 +1,131 @@
+body {
+  background-color: #fff7e4;
+}
+
+.container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0 auto;
+  background-color: white;
+  width: 370px;
+}
+
+.topbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.color {
+  margin: 5px 0 5px 0;
+  height: 100%;
+  background-color: white;
+}
+
+.start-btn {
+margin: 0 auto;
+border: 0;
+background-color: green;
+width: 100%;
+height: 50vh;
+}
+
+.red {
+  width: 100%;
+  height: 200px;
+  background-color: white;
+}
+
+.select-area {
+  width: 33%;
+  border: none;
+}
+.select-area select{
+  text-align: center;
+  border: none;
+  appearance: none;
+  width: 100%;
+  padding: 0.65rem;
+  font-size: 1rem;
+  color: #000;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.select-area select option {
+  text-align: center;
+  font-size: 1rem;
+  color: #000;
+  background-color: #fff;
+  padding-right: 0.3rem;
+}
+.select-area p {
+  text-align: center;
+  font-size: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.sound {
+  height: 25px;
+  width: 33% ;
+  background: no-repeat;
+  background-position: center;
+  background-image: url("./icons/audio.svg");
+}
+
+.options{
+  width: 33%;
+  text-align: center;
+  position: relative;
+}
+.options img {
+  background-image: url("./icons/settings.png");
+  height: 25px;
+  width: 25px;
+}
+
+.options:hover {
+  cursor: pointer;
+  .options-list {
+    visibility: visible;
+  }
+}
+
+.options-list{
+  background-color: #fcfcfc;
+  visibility: hidden;
+  position: absolute;
+  width: 320px;
+  right: 20px;
+}
+
+.options-list label {
+  width: 75%;
+}
+
+.options-list ul {
+  list-style: none;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+}
+
+.option-item input {
+  text-align: center;
+  width: 15%;
+  height: 20px;
+  border: none;
+  background-color: inherit;
+}
+
+.option-item p {
+  width: 10%;
+  background-color: inherit;
+  padding: 0 3px 0 3px;
+}
