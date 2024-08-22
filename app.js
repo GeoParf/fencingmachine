@@ -5,6 +5,8 @@ const color = document.querySelector(".color");
 const colorSelector = document.querySelector("#color-selector");
 const soundIcon = document.querySelector(".sound");
 const optionsElements = document.querySelectorAll('[type="number"]')
+const optionsBtn = document.querySelector(".options");
+const optionsList = document.querySelector(".options-list");
 
 const colors = ["red", "green", "blue", "yellow"];
 const MILLISEC_IN_SEC = 1000;
@@ -24,6 +26,7 @@ let maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
 
 let isWork = false;
 let isSoundOn = true;
+let isVisible = false;
 let maxColors = +colorSelector.value;
 let _nextTick; // ID for next exersice setTimeout
 
@@ -37,6 +40,13 @@ let _nextTick; // ID for next exersice setTimeout
 // Event listeners block
 colorSelector.addEventListener("change", () => {
   maxColors = +colorSelector.value;
+})
+
+optionsBtn.addEventListener("click", () => {
+  isVisible = !isVisible;
+  if (isVisible) {optionsList.style.visibility = "visible"}
+  else {optionsList.style.visibility = "hidden"}
+  
 })
 
 startBtn.addEventListener("click", () => {

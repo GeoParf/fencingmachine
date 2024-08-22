@@ -20,7 +20,7 @@ body {
 }
 
 .color {
-  margin: 5px 0 5px 0;
+  margin-bottom: 10px;
   height: 100%;
   background-color: white;
 }
@@ -86,13 +86,6 @@ height: 50vh;
   background-image: url("./icons/settings.png");
   height: 25px;
   width: 25px;
-}
-
-.options:hover {
-  cursor: pointer;
-  .options-list {
-    visibility: visible;
-  }
 }
 
 .options-list{
