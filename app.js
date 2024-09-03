@@ -1,3 +1,5 @@
+//Todo Вставить перед началом звуковой сигнал
+
 // Constantes block
 
 const startBtn = document.querySelector(".start-btn");
@@ -28,14 +30,7 @@ let isWork = false;
 let isSoundOn = true;
 let isVisible = false;
 let maxColors = +colorSelector.value;
-let _nextTick; // ID for next exersice setTimeout
-
-// Conditions befor start
-
-// console.log(options.exerciseDuration, options.exerciseTimeout, options.minExercise, options.maxExercise );
-
-
-// console.log(`MIN ${options.exerciseTimeout / MILLISEC_IN_SEC} sec, MAX ${maxTimerDurationForOneSignal / MILLISEC_IN_SEC} sec, The Number of action is: ${numberOfActions}`);
+let _nextTickID; // ID for next exersice setTimeout
 
 // Event listeners block
 colorSelector.addEventListener("change", () => {
@@ -74,8 +69,6 @@ optionsElements.forEach((element) => {
     else {
       options[element.id] = +element.value;
     }
-
-    // console.log(options.exerciseDuration, options.exerciseTimeout, options.minExercise, options.maxExercise );
   })
 })
 
@@ -86,10 +79,18 @@ function getRandom (min = 1, max = 1){
 }
 
 // Start exercise block
+function countdown () {
+  let i = 0
+  const counter  = setInterval(()=> {
+    console.log(++i)
+    if (i===3) clearInterval(counter);
+  }, 1000)
+}
 
 async function startExercise(){ 
-  // console.log("The exercise started".toUpperCase());
-  setTimeout(async () => {  
+  countdown()
+  playRing("red");
+  setTimeout(async () => {      
     stopExersice()
   }, options.exerciseDuration );
   for (let i=0; i <= numberOfActions - 1; i++) {
@@ -104,9 +105,8 @@ async function startExercise(){
 
 function startTimerForNextSignal(color) { // color is string
   const timeoutTime = getRandom(options.exerciseTimeout, maxTimerDurationForOneSignal)
-  // console.log("Next action in: " + Math.floor(timeoutTime / MILLISEC_IN_SEC) + " Sec");
   return new Promise((resolve) => {
-      _nextTick = setTimeout(() => {
+      _nextTickID = setTimeout(() => {
         resolve(color); 
       }, timeoutTime);
   })
@@ -117,7 +117,6 @@ function makeSimple(color, i) {
     playRing(color);
   }
   setColor(color);
-  // console.log(i + 1, color) ;
   setTimeout(() => { setColor("white")}, 500);
 }
 
@@ -133,7 +132,6 @@ function makeDouble(color, i) {
       playRing(color);
     }
     setColor(color);
-    // console.log(i + 1, color) ;
   },500)
   setTimeout(() => { setColor("white")}, 800);
 }
@@ -153,22 +151,19 @@ function setColor(colorOfSignal){
   color.style.backgroundColor = colorOfSignal;
 }
 
-function playRing(url) {
-  rings.src = `./sounds/${url}.wav`;
+function playRing(filename) {
+  rings.src = `./sounds/${filename}.wav`;
   rings.play(); 
 }
 
 // Stop exercise block
 
 function stopExersice () {
-  // console.log("The exercise ended".toUpperCase());
-  clearTimeout(_nextTick);
+  clearTimeout(_nextTickID);
   setColor("white");
   buttonTaggler();
   numberOfActions = getRandom(options.minExercise, options.maxExercise)
   maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
-  // console.log(`Next number of exersices ${numberOfActions}`);
-  arrTimerTime = [];
 }
 
 // "Start" button condition taggler block
