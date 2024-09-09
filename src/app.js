@@ -1,4 +1,4 @@
-//Todo Вставить перед началом звуковой сигнал
+//Todo поменять звуковой сигнал перед началом
 
 // Constantes block
 
@@ -9,10 +9,11 @@ const soundIcon = document.querySelector(".sound");
 const optionsElements = document.querySelectorAll('[type="number"]')
 const optionsBtn = document.querySelector(".options");
 const optionsList = document.querySelector(".options-list");
+const countdownEl = document.querySelector(".countdown");
 
 const colors = ["red", "green", "blue", "yellow"];
 const MILLISEC_IN_SEC = 1000;
-const rings = new Audio("./sounds/red.wav");
+const rings = new Audio("../src/assets/sounds/red.wav");
 
 const options = {
   "exerciseDuration" : +optionsElements[0].value * MILLISEC_IN_SEC,
@@ -30,7 +31,9 @@ let isWork = false;
 let isSoundOn = true;
 let isVisible = false;
 let maxColors = +colorSelector.value;
+let _counterID; // ID for counter setInterval
 let _nextTickID; // ID for next exersice setTimeout
+let _startDelayID; // ID for delay for countdaun befor start setTimeout
 
 // Event listeners block
 colorSelector.addEventListener("change", () => {
@@ -50,15 +53,18 @@ startBtn.addEventListener("click", () => {
     return;
   }
   buttonTaggler()
-  startExercise();
+  countdown()
+  _startDelayID = setTimeout(() => {
+    startExercise();
+  }, 4000)
 });
 
 soundIcon.addEventListener("click", () => {
   isSoundOn = !isSoundOn;
   if (isSoundOn) {
-    soundIcon.style.backgroundImage = "url(./icons/audio.svg)";
+    soundIcon.style.backgroundImage = "url(./src/assets/icons/audio.svg)";
   } else {
-    soundIcon.style.backgroundImage = "url(./icons/noaudio.svg)";
+    soundIcon.style.backgroundImage = "url(./src/assets/icons/noaudio.svg)";
   }
 })
 
@@ -80,21 +86,23 @@ function getRandom (min = 1, max = 1){
 
 // Start exercise block
 function countdown () {
-  let i = 0
-  const counter  = setInterval(()=> {
-    console.log(++i)
-    if (i===3) clearInterval(counter);
+  let counterText = 4
+  _counterID = setInterval(()=> {
+    countdownEl.innerText = --counterText
+    if (counterText===0) {
+      if(isSoundOn) {playRing("red")};
+      clearInterval(_counterID);
+      countdownEl.innerText = ""
+    }
   }, 1000)
 }
 
 async function startExercise(){ 
-  countdown()
-  playRing("red");
-  setTimeout(async () => {      
+  setTimeout(() => {          
     stopExersice()
   }, options.exerciseDuration );
   for (let i=0; i <= numberOfActions - 1; i++) {
-    const color = await startTimerForNextSignal(getColor()); //name of color
+    const color = await startTimerForNextSignal(getColor());
     if (i <= numberOfActions -1 && maxColors >=5 ) {
       makeDouble(color, i)
     } else if (i <= numberOfActions -1 && maxColors <= 4 ) {
@@ -103,7 +111,7 @@ async function startExercise(){
   };
 };
 
-function startTimerForNextSignal(color) { // color is string
+function startTimerForNextSignal(color) { 
   const timeoutTime = getRandom(options.exerciseTimeout, maxTimerDurationForOneSignal)
   return new Promise((resolve) => {
       _nextTickID = setTimeout(() => {
@@ -140,26 +148,35 @@ function makeDouble(color, i) {
 function getColor() {
   if (maxColors <= 4) {
     const numberOfSignal = getRandom(0, maxColors)
-    return colors[numberOfSignal]
+    return colors[numberOfSignal] // returns string name of color
   } else {
     const numberOfSignal = getRandom(1, (maxColors - 3))
-    return colors[numberOfSignal]
+    return colors[numberOfSignal] // returns string name of color
   } 
 };
 
 function setColor(colorOfSignal){
   color.style.backgroundColor = colorOfSignal;
+  if(colorOfSignal === "white") {
+    color.style.visibility = "hidden";
+  }
+  else {
+    color.style.visibility = "visible";
+  }
 }
 
 function playRing(filename) {
-  rings.src = `./sounds/${filename}.wav`;
+  rings.src = `../src/assets/sounds/${filename}.wav`;
   rings.play(); 
 }
 
 // Stop exercise block
 
 function stopExersice () {
+  clearInterval(_counterID);
+  countdownEl.innerText = "";
   clearTimeout(_nextTickID);
+  clearTimeout(_startDelayID);
   setColor("white");
   buttonTaggler();
   numberOfActions = getRandom(options.minExercise, options.maxExercise)
