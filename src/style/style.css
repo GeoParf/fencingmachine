@@ -91,6 +91,7 @@ body {
 }
 .select-area p {
   text-align-last: center;
+  direction: ltr;
   -webkit-box-align: center;
   text-align: center;
   font-size: 10px;
