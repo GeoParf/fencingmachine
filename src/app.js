@@ -124,7 +124,8 @@ function makeSimple(color, i) {
   if (isSoundOn){
     playRing(color);
   }
-  setColor(color);
+  
+  setTimeout(() => { setColor(color);}, 100);
   setTimeout(() => { setColor("white")}, 500);
 }
 
