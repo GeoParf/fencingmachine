@@ -144,14 +144,13 @@ function makeDouble(color, i) {
   setTimeout(() => { setColor("white")}, 800);
 }
 
-
-function getColor() {
+function getColor() { // returns string name of color
   if (maxColors <= 4) {
     const numberOfSignal = getRandom(0, maxColors)
-    return colors[numberOfSignal] // returns string name of color
+    return colors[numberOfSignal] 
   } else {
     const numberOfSignal = getRandom(1, (maxColors - 3))
-    return colors[numberOfSignal] // returns string name of color
+    return colors[numberOfSignal] 
   } 
 };
 
