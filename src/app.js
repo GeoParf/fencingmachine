@@ -90,6 +90,7 @@ function getRandom (min = 1, max = 1){
 }
 
 // Start exercise block
+
 function countdown () {
   let counterText = 4
   _counterID = setInterval(()=> {
@@ -109,9 +110,9 @@ async function startExercise(){
   for (let i=0; i <= numberOfActions - 1; i++) {
     const color = await startTimerForNextSignal(getColor());
     if (i <= numberOfActions -1 && maxColors >=5 ) {
-      makeDouble(color, i)
+      await makeDouble(color, i)
     } else if (i <= numberOfActions -1 && maxColors <= 4 ) {
-      makeSimple(color, i)
+      await makeSimple(color, i)
     }
   };
 };
@@ -125,30 +126,32 @@ function startTimerForNextSignal(color) {
   })
 };
 
-function makeSimple(color) {
+async function makeSimple(color) {
   if (isSoundOn){
-    playRing(color);
+    await playRing(color);
   }
   
   setTimeout(() => { setColor(color);}, 150);
   setTimeout(() => { setColor("white")}, 650);
 }
 
-function makeDouble(color) {
+async function makeDouble(color) {
   setColor("red");
   if (isSoundOn){
-    playRing("red");
+    await playRing("red");
   }
 
   setTimeout(() => { setColor("white")}, 200)
-  setTimeout(() => {
+  setTimeout(async () => {
     if (isSoundOn){
-      playRing(color);
+      await playRing(color);
     }
     setColor(color);
   },500)
   setTimeout(() => { setColor("white")}, 800);
 }
+
+// Color menagment block
 
 function getColor() { // returns string name of color
   if (maxColors <= 4) {
@@ -170,9 +173,11 @@ function setColor(colorOfSignal){
   }
 }
 
-function playRing(filename) {
+// Sound managment block
+
+async function playRing(filename) {
   rings.src = `${WEB_SOUND}${filename}.wav`;
-  rings.play(); 
+  await rings.play(); 
 }
 
 // Stop exercise block
