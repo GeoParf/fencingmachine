@@ -125,16 +125,16 @@ function startTimerForNextSignal(color) {
   })
 };
 
-function makeSimple(color, i) {
+function makeSimple(color) {
   if (isSoundOn){
     playRing(color);
   }
   
-  setTimeout(() => { setColor(color);}, 100);
-  setTimeout(() => { setColor("white")}, 500);
+  setTimeout(() => { setColor(color);}, 150);
+  setTimeout(() => { setColor("white")}, 650);
 }
 
-function makeDouble(color, i) {
+function makeDouble(color) {
   setColor("red");
   if (isSoundOn){
     playRing("red");
