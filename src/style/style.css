@@ -119,6 +119,7 @@ body {
 }
 
 .options-list{
+  z-index: 10;
   background-color: #fcfcfc;
   visibility: hidden;
   position: absolute;

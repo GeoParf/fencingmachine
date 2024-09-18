@@ -40,11 +40,13 @@ colorSelector.addEventListener("change", () => {
   maxColors = +colorSelector.value;
 })
 
-optionsBtn.addEventListener("click", () => {
-  isVisible = !isVisible;
-  if (isVisible) {optionsList.style.visibility = "visible"}
-  else {optionsList.style.visibility = "hidden"}
-  
+optionsBtn.addEventListener("click", (evt) => {  
+  if(evt.target.classList[0]){
+    if( evt.target.classList[0].includes("opt-img") || evt.target.classList[0].includes("options")){
+      isVisible = !isVisible;
+      isVisible ? optionsList.style.visibility = "visible" : optionsList.style.visibility = "hidden"
+    }
+  }
 })
 
 startBtn.addEventListener("click", () => {
