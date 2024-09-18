@@ -10,10 +10,12 @@ const optionsElements = document.querySelectorAll('[type="number"]')
 const optionsBtn = document.querySelector(".options");
 const optionsList = document.querySelector(".options-list");
 const countdownEl = document.querySelector(".countdown");
+//const LOCAL_SOUND = "../src/assets/sounds/";
+const WEB_SOUND = "https://github.com/GeoParf/fencingmachine/raw/master/src/assets/sounds/"
 
 const colors = ["red", "green", "blue", "yellow"];
 const MILLISEC_IN_SEC = 1000;
-const rings = new Audio("../src/assets/sounds/red.wav");
+const rings = new Audio(`${WEB_SOUND}red.wav`);
 
 const options = {
   "exerciseDuration" : +optionsElements[0].value * MILLISEC_IN_SEC,
@@ -34,6 +36,7 @@ let maxColors = +colorSelector.value;
 let _counterID; // ID for counter setInterval
 let _nextTickID; // ID for next exersice setTimeout
 let _startDelayID; // ID for delay for countdaun befor start setTimeout
+let _stopExerciseId; // ID for stop exersice setTimeout
 
 // Event listeners block
 colorSelector.addEventListener("change", () => {
@@ -100,7 +103,7 @@ function countdown () {
 }
 
 async function startExercise(){ 
-  setTimeout(() => {          
+  _stopExerciseId = setTimeout(() => {          
     stopExersice()
   }, options.exerciseDuration );
   for (let i=0; i <= numberOfActions - 1; i++) {
@@ -168,7 +171,7 @@ function setColor(colorOfSignal){
 }
 
 function playRing(filename) {
-  rings.src = `../src/assets/sounds/${filename}.wav`;
+  rings.src = `${WEB_SOUND}${filename}.wav`;
   rings.play(); 
 }
 
@@ -179,6 +182,7 @@ function stopExersice () {
   countdownEl.innerText = "";
   clearTimeout(_nextTickID);
   clearTimeout(_startDelayID);
+  clearTimeout(_stopExerciseId);
   setColor("white");
   buttonTaggler();
   numberOfActions = getRandom(options.minExercise, options.maxExercise)
