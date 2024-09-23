@@ -5,7 +5,7 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  height: 97vh;
+  height: 94vh;
   margin: 0 auto;
   background-color: white;
   width: 340px;
@@ -19,9 +19,9 @@ body {
   align-items: center;
 }
 
-#medeo {
-    width: 100px;
-}
+/* #medeo {
+    width: 100%;
+} */
 
 .signalArea {
   display: flex;
@@ -33,11 +33,29 @@ body {
   height: 70%;
 }
 
+.ads_area {
+  width: 97%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* align-content: flex-start; */
+}
+
 .ads{
-  margin: 5px 5px;
+  margin: auto;
   width: 100px;
-  height: 30px;
-  align-items: center;
+  height: 10%;
+}
+.ads a {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.ads a img {
+  height: inherit;
 }
 
 .color {
@@ -124,7 +142,7 @@ body {
   visibility: hidden;
   position: absolute;
   width: 320px;
-  right: 20px;
+  right: 10px;
 }
 
 .options-list label {
@@ -170,5 +188,13 @@ body {
 @media (max-height: 310px) {
   .start-btn {
     font-size: 30px;
+  }
+}
+@media (max-width: 400px) {
+  .ads_area {
+    width: 100%;
+  }
+  .ads {
+    height: 7%;
   }
 }

@@ -10,7 +10,6 @@ const optionsElements = document.querySelectorAll('[type="number"]')
 const optionsBtn = document.querySelector(".options");
 const optionsList = document.querySelector(".options-list");
 const countdownEl = document.querySelector(".countdown");
-//const LOCAL_SOUND = "../src/assets/sounds/";
 const WEB_SOUND = "https://github.com/GeoParf/fencingmachine/raw/master/src/assets/sounds/"
 
 const colors = ["red", "green", "blue", "yellow"];
@@ -104,9 +103,8 @@ function countdown () {
 }
 
 async function startExercise(){ 
-  _stopExerciseId = setTimeout(() => {          
-    stopExersice()
-  }, options.exerciseDuration );
+  _stopExerciseId = setTimeout(() => { stopExersice() }, options.exerciseDuration );
+
   for (let i=0; i <= numberOfActions - 1; i++) {
     const color = await startTimerForNextSignal(getColor());
     if (i <= numberOfActions -1 && maxColors >=5 ) {
@@ -120,9 +118,7 @@ async function startExercise(){
 function startTimerForNextSignal(color) { 
   const timeoutTime = getRandom(options.exerciseTimeout, maxTimerDurationForOneSignal)
   return new Promise((resolve) => {
-      _nextTickID = setTimeout(() => {
-        resolve(color); 
-      }, timeoutTime);
+      _nextTickID = setTimeout(() => { resolve(color) }, timeoutTime);
   })
 };
 
