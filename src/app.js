@@ -1,5 +1,3 @@
-//Todo поменять звуковой сигнал перед началом
-
 // Constantes block
 
 const startBtn = document.querySelector(".start-btn");
@@ -10,6 +8,8 @@ const optionsElements = document.querySelectorAll('[type="number"]')
 const optionsBtn = document.querySelector(".options");
 const optionsList = document.querySelector(".options-list");
 const countdownEl = document.querySelector(".countdown");
+const instructionBtn = document.querySelector(".questmark");
+const instruction = document.querySelector(".instruction");
 const WEB_SOUND = "https://github.com/GeoParf/fencingmachine/raw/master/src/assets/sounds/"
 
 const colors = ["red", "green", "blue", "yellow"];
@@ -30,7 +30,8 @@ let maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
 
 let isWork = false;
 let isSoundOn = true;
-let isVisible = false;
+let isOptionVisible = false;
+let isInstructionVisible = false;
 let maxColors = +colorSelector.value;
 let _counterID; // ID for counter setInterval
 let _nextTickID; // ID for next exersice setTimeout
@@ -45,10 +46,15 @@ colorSelector.addEventListener("change", () => {
 optionsBtn.addEventListener("click", (evt) => {  
   if(evt.target.classList[0]){
     if( evt.target.classList[0].includes("opt-img") || evt.target.classList[0].includes("options")){
-      isVisible = !isVisible;
-      isVisible ? optionsList.style.visibility = "visible" : optionsList.style.visibility = "hidden"
+      isOptionVisible = !isOptionVisible;
+      isOptionVisible ? optionsList.style.visibility = "visible" : optionsList.style.visibility = "hidden"
     }
   }
+})
+
+instructionBtn.addEventListener("click", () => {
+  isInstructionVisible = !isInstructionVisible;
+  isInstructionVisible ? instruction.style.visibility = "visible" : instruction.style.visibility = "hidden"
 })
 
 startBtn.addEventListener("click", () => {
@@ -188,6 +194,11 @@ function stopExersice () {
   buttonTaggler();
   numberOfActions = getRandom(options.minExercise, options.maxExercise)
   maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
+  if(isSoundOn) {
+    playRing("red")
+    setTimeout(() => {playRing("red")}, 500)
+  };
+
 }
 
 // "Start" button condition taggler block
