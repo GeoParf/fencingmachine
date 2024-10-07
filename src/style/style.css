@@ -25,7 +25,6 @@ body {
   border: none;
 }
 .select-area select{
-  text-align: center;
   border: none;
   appearance: none;
   width: 100%;
@@ -39,6 +38,7 @@ body {
 .select-area select option {
   width: 20px;
   text-align: center;
+  direction: rtl;
   text-align: -webkit-center;
   font-size: 1rem;
   color: #000;
