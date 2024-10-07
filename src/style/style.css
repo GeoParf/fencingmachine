@@ -37,7 +37,9 @@ body {
 }
 
 .select-area select option {
+  width: 20px;
   text-align: center;
+  text-align: -webkit-center;
   font-size: 1rem;
   color: #000;
   background-color: #fff;
