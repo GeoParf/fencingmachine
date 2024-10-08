@@ -1,15 +1,24 @@
 // Constantes block
 
 const startBtn = document.querySelector(".start-btn");
+
 const color = document.querySelector(".color");
+
 const colorSelector = document.querySelector("#color-selector");
+const select = document.querySelector(".select_indicator");
+const selectArea = document.querySelector(".select-opions-area");
+const selectOptions = document.querySelectorAll(".option")
+
 const soundIcon = document.querySelector(".sound");
-const optionsElements = document.querySelectorAll('[type="number"]')
+
+const optionsElements = document.querySelectorAll('[type="number"]');
 const optionsBtn = document.querySelector(".options");
 const optionsList = document.querySelector(".options-list");
+
 const countdownEl = document.querySelector(".countdown");
 const instructionBtn = document.querySelector(".questmark");
 const instruction = document.querySelector(".instruction");
+
 const WEB_SOUND = "https://github.com/GeoParf/fencingmachine/raw/master/src/assets/sounds/"
 
 const colors = ["red", "green", "blue", "yellow"];
@@ -31,6 +40,7 @@ let maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
 let isWork = false;
 let isSoundOn = true;
 let isOptionVisible = false;
+let isSelectVisible = false;
 let isInstructionVisible = false;
 let maxColors = +colorSelector.value;
 let _counterID; // ID for counter setInterval
@@ -39,9 +49,19 @@ let _startDelayID; // ID for delay for countdaun befor start setTimeout
 let _stopExerciseId; // ID for stop exersice setTimeout
 
 // Event listeners block
-colorSelector.addEventListener("change", () => {
-  maxColors = +colorSelector.value;
+
+colorSelector.addEventListener("click", () => {
+    isSelectVisible = !isSelectVisible;
+    isSelectVisible ? selectArea.style.visibility = "visible" : selectArea.style.visibility = "hidden";  
 })
+
+selectOptions.forEach(el => {
+  el.addEventListener("click", () => {
+    maxColors = +el.attributes.value.value;
+    select.innerText = el.innerText;
+  })
+}) 
+  
 
 optionsBtn.addEventListener("click", (evt) => {  
   if(evt.target.classList[0]){
