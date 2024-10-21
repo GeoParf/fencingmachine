@@ -1,15 +1,24 @@
 // Constantes block
 
 const startBtn = document.querySelector(".start-btn");
+
 const color = document.querySelector(".color");
+
 const colorSelector = document.querySelector("#color-selector");
+const select = document.querySelector(".select_indicator");
+const selectArea = document.querySelector(".select-opions-area");
+const selectOptions = document.querySelectorAll(".option")
+
 const soundIcon = document.querySelector(".sound");
-const optionsElements = document.querySelectorAll('[type="number"]')
+
+const optionsElements = document.querySelectorAll('[type="number"]');
 const optionsBtn = document.querySelector(".options");
 const optionsList = document.querySelector(".options-list");
+
 const countdownEl = document.querySelector(".countdown");
 const instructionBtn = document.querySelector(".questmark");
 const instruction = document.querySelector(".instruction");
+
 const WEB_SOUND = "https://github.com/GeoParf/fencingmachine/raw/master/src/assets/sounds/"
 
 const colors = ["red", "green", "blue", "yellow"];
@@ -31,17 +40,27 @@ let maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
 let isWork = false;
 let isSoundOn = true;
 let isOptionVisible = false;
+let isSelectVisible = false;
 let isInstructionVisible = false;
-let maxColors = +colorSelector.value;
+let maxColors = 1;
 let _counterID; // ID for counter setInterval
 let _nextTickID; // ID for next exersice setTimeout
 let _startDelayID; // ID for delay for countdaun befor start setTimeout
 let _stopExerciseId; // ID for stop exersice setTimeout
 
 // Event listeners block
-colorSelector.addEventListener("change", () => {
-  maxColors = +colorSelector.value;
+
+colorSelector.addEventListener("click", () => {
+    isSelectVisible = !isSelectVisible;
+    isSelectVisible ? selectArea.style.visibility = "visible" : selectArea.style.visibility = "hidden";  
 })
+
+selectOptions.forEach(el => {
+  el.addEventListener("click", () => {
+    maxColors = +el.attributes.value.value;
+    select.innerText = el.innerText;
+  })
+}) 
 
 optionsBtn.addEventListener("click", (evt) => {  
   if(evt.target.classList[0]){
@@ -97,13 +116,16 @@ function getRandom (min = 1, max = 1){
 // Start exercise block
 
 function countdown () {
-  let counterText = 4
+  let counter = 5;
   _counterID = setInterval(()=> {
-    countdownEl.innerText = --counterText
-    if (counterText===0) {
+    counter--;
+    countdownEl.innerText = counter - 1;
+    if (counter === 1) countdownEl.innerText = "GO";
+    if (counter === 0) {
       if(isSoundOn) {playRing("red")};
       clearInterval(_counterID);
       countdownEl.innerText = ""
+      return;
     }
   }, 1000)
 }
@@ -149,8 +171,8 @@ async function makeDouble(color) {
       await playRing(color);
     }
     setColor(color);
-  },500)
-  setTimeout(() => { setColor("white")}, 800);
+  },700)
+  setTimeout(() => { setColor("white")}, 1300);
 }
 
 // Color menagment block
@@ -198,7 +220,6 @@ function stopExersice () {
     playRing("red")
     setTimeout(() => {playRing("red")}, 500)
   };
-
 }
 
 // "Start" button condition taggler block
