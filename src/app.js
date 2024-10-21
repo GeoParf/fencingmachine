@@ -42,7 +42,7 @@ let isSoundOn = true;
 let isOptionVisible = false;
 let isSelectVisible = false;
 let isInstructionVisible = false;
-let maxColors = +colorSelector.value;
+let maxColors = 1;
 let _counterID; // ID for counter setInterval
 let _nextTickID; // ID for next exersice setTimeout
 let _startDelayID; // ID for delay for countdaun befor start setTimeout
@@ -61,7 +61,6 @@ selectOptions.forEach(el => {
     select.innerText = el.innerText;
   })
 }) 
-  
 
 optionsBtn.addEventListener("click", (evt) => {  
   if(evt.target.classList[0]){
@@ -117,13 +116,16 @@ function getRandom (min = 1, max = 1){
 // Start exercise block
 
 function countdown () {
-  let counterText = 4
+  let counter = 5;
   _counterID = setInterval(()=> {
-    countdownEl.innerText = --counterText
-    if (counterText===0) {
+    counter--;
+    countdownEl.innerText = counter - 1;
+    if (counter === 1) countdownEl.innerText = "GO";
+    if (counter === 0) {
       if(isSoundOn) {playRing("red")};
       clearInterval(_counterID);
       countdownEl.innerText = ""
+      return;
     }
   }, 1000)
 }
@@ -169,8 +171,8 @@ async function makeDouble(color) {
       await playRing(color);
     }
     setColor(color);
-  },500)
-  setTimeout(() => { setColor("white")}, 800);
+  },700)
+  setTimeout(() => { setColor("white")}, 1300);
 }
 
 // Color menagment block
@@ -218,7 +220,6 @@ function stopExersice () {
     playRing("red")
     setTimeout(() => {playRing("red")}, 500)
   };
-
 }
 
 // "Start" button condition taggler block
