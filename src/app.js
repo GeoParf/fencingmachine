@@ -19,7 +19,7 @@ const countdownEl = document.querySelector(".countdown");
 const instructionBtn = document.querySelector(".questmark");
 const instruction = document.querySelector(".instruction");
 
-const SOUNDS_PATH = '../src/assets/sounds/';
+const SOUNDS_PATH = './src/assets/sounds/';
 
 const colors = ["red", "green", "blue", "yellow"];
 const MILLISEC_IN_SEC = 1000;
