@@ -124,7 +124,7 @@ function countdown () {
     countdownEl.innerText = counter - 1;
     if (counter === 1) countdownEl.innerText = "GO";
     if (counter === 0) {
-      if(isSoundOn) {playRing("red")};
+      playRing("red");
       clearInterval(_counterID);
       countdownEl.innerText = "";
       return;
@@ -153,7 +153,7 @@ async function startTimerForNextSignal(color) {
 };
 
 function makeSimple(color) {
- playRing(color);
+  playRing(color);
   
   setTimeout(() => { setColor(color);}, 150);
   setTimeout(() => { setColor("white")}, 650);
@@ -195,8 +195,8 @@ function setColor(colorOfSignal){
 
 // Sound managment block
 
-function playRing(filename) {
-  rings.src = `${WEB_SOUND}${filename}.wav`;
+function playRing(colorNameString) {
+  rings.src = `${WEB_SOUND}${colorNameString}.wav`;
   if(isSoundOn) rings.play(); 
 };
 
