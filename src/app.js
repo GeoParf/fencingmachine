@@ -19,11 +19,11 @@ const countdownEl = document.querySelector(".countdown");
 const instructionBtn = document.querySelector(".questmark");
 const instruction = document.querySelector(".instruction");
 
-const WEB_SOUND = '../src/assets/sounds/';
+const SOUNDS_PATH = '../src/assets/sounds/';
 
 const colors = ["red", "green", "blue", "yellow"];
 const MILLISEC_IN_SEC = 1000;
-const rings = new Audio(`${WEB_SOUND}red.wav`);
+const rings = new Audio(`${SOUNDS_PATH}red.wav`);
 
 const options = {
   "exerciseDuration" : +optionsElements[0].value * MILLISEC_IN_SEC,
@@ -111,7 +111,7 @@ optionsElements.forEach((element) => {
 
 // Functions block
 
-function getRandom (min = 1, max = 1){
+function getRandom (min = 1, max = 5){
   return Math.floor((Math.random() * (max-min) + min));
 };
 
@@ -195,8 +195,8 @@ function setColor(colorOfSignal){
 
 // Sound managment block
 
-function playRing(colorNameString) {
-  rings.src = `${WEB_SOUND}${colorNameString}.wav`;
+function playRing(nameOfColorString) {
+  rings.src = `${SOUNDS_PATH}${nameOfColorString}.wav`;
   if(isSoundOn) rings.play(); 
 };
 
