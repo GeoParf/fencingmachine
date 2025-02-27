@@ -76,13 +76,14 @@ instructionBtn.addEventListener("click", () => {
   isInstructionVisible ? instruction.style.visibility = "visible" : instruction.style.visibility = "hidden";
 });
 
-startBtn.addEventListener("click", () => {
+startBtn.addEventListener("click", async () => {
+  playRing("click");
   if(isWork){
     stopExersice();
     return;
   }
   buttonTaggler();
-  countdown();
+  await countdown();
   _startDelayID = setTimeout(() => {
     startExercise();
   }, 4000);
@@ -117,7 +118,7 @@ function getRandom (min = 1, max = 5){
 
 // Start exercise block
 
-function countdown () {
+async function countdown () {
   let counter = 5;
   _counterID = setInterval(()=> {
     counter--;
@@ -196,7 +197,7 @@ function setColor(colorOfSignal){
 // Sound managment block
 
 function playRing(nameOfColorString) {
-  rings.src = `${SOUNDS_PATH}${nameOfColorString}.wav`;
+  rings.src = `${SOUNDS_PATH}${nameOfColorString}.wav`;  
   if(isSoundOn) rings.play(); 
 };
 
@@ -213,7 +214,7 @@ function stopExersice () {
   numberOfActions = getRandom(options.minExercise, options.maxExercise);
   maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
     playRing("red");
-    setTimeout(() => {playRing("red")}, 500);
+    //setTimeout(() => {playRing("red")}, 500);
 };
 
 // "Start" button condition taggler block
