@@ -197,7 +197,7 @@ function setColor(colorOfSignal){
 // Sound managment block
 
 function playRing(nameOfColorString) {
-  rings.src = `${SOUNDS_PATH}${nameOfColorString}.wav`;
+  rings.src = `${SOUNDS_PATH}${nameOfColorString}.wav`;  
   if(isSoundOn) rings.play(); 
 };
 
