@@ -4,6 +4,8 @@ const startBtn = document.querySelector(".start-btn");
 
 const color = document.querySelector(".color");
 
+const progressBarElement = document.querySelector(".progress-bar");
+
 const colorSelector = document.querySelector(".select-area");
 const select = document.querySelector(".select_indicator");
 const selectArea = document.querySelector(".select-opions-area");
@@ -116,6 +118,11 @@ function getRandom (min = 1, max = 5){
   return Math.floor((Math.random() * (max-min) + min));
 };
 
+function updateProgressBarBySignals(totalSignals, completedSignals) {
+  const progress = (completedSignals / totalSignals) * 100;
+  progressBarElement.style.width = `${Math.min(progress, 100)}%`;
+};
+
 // Start exercise block
 
 async function countdown () {
@@ -138,9 +145,13 @@ async function startExercise(){
 
   for (let i=0; i <= numberOfActions - 1; i++) {
     const color = await startTimerForNextSignal(getColor()); 
+
+    updateProgressBarBySignals(numberOfActions, i + 1);
+
     if (i <= numberOfActions -1 && maxColors >=5 ) {
       makeDouble(color, i);
-    } else if (i <= numberOfActions -1 && maxColors <= 4 ) {
+    } 
+    else if (i <= numberOfActions -1 && maxColors <= 4 ) {
       makeSimple(color, i);
     }
   };
@@ -213,8 +224,8 @@ function stopExersice () {
   buttonTaggler();
   numberOfActions = getRandom(options.minExercise, options.maxExercise);
   maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
-    playRing("red");
-    //setTimeout(() => {playRing("red")}, 500);
+   playRing("red");
+   progressBarElement.style.width = `0%`;
 };
 
 // "Start" button condition taggler block
