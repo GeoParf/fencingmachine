@@ -68,14 +68,26 @@ optionsBtn.addEventListener("click", (evt) => {
   if(evt.target.classList[0]){
     if( evt.target.classList[0].includes("opt-img") || evt.target.classList[0].includes("options")){
       isOptionVisible = !isOptionVisible;
-      isOptionVisible ? optionsList.style.visibility = "visible" : optionsList.style.visibility = "hidden"
+      if(isOptionVisible){
+        optionsList.style.visibility = "visible";
+        optionsBtn.children[0].src = "../src/assets/icons/close.png";
+      } else {
+        optionsList.style.visibility = "hidden";
+        optionsBtn.children[0].src = "../src/assets/icons/settings.png";
+      }
     };
   }
 });
 
 instructionBtn.addEventListener("click", () => {
   isInstructionVisible = !isInstructionVisible;
-  isInstructionVisible ? instruction.style.visibility = "visible" : instruction.style.visibility = "hidden";
+  if(isInstructionVisible ){
+    instruction.style.visibility = "visible";
+    instructionBtn.children[0].src = "../src/assets/icons/close.png";
+  } else {
+    instruction.style.visibility = "hidden";
+    instructionBtn.children[0].src = "../src/assets/icons/question-mark-icon.png";
+  }
 });
 
 startBtn.addEventListener("click", async () => {
