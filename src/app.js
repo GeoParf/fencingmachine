@@ -64,30 +64,14 @@ selectOptions.forEach(el => {
   });
 });
 
-optionsBtn.addEventListener("click", (evt) => {  
-  if(evt.target.classList[0]){
-    if( evt.target.classList[0].includes("opt-img") || evt.target.classList[0].includes("options")){
-      isOptionVisible = !isOptionVisible;
-      if(isOptionVisible){
-        optionsList.style.visibility = "visible";
-        optionsBtn.children[0].src = "../src/assets/icons/close.png";
-      } else {
-        optionsList.style.visibility = "hidden";
-        optionsBtn.children[0].src = "../src/assets/icons/settings.png";
-      }
-    };
-  }
+optionsBtn.addEventListener("click", () => {  
+  optionTaggler()
+  if(isInstructionVisible) instructionTaggler()
 });
 
 instructionBtn.addEventListener("click", () => {
-  isInstructionVisible = !isInstructionVisible;
-  if(isInstructionVisible ){
-    instruction.style.visibility = "visible";
-    instructionBtn.children[0].src = "../src/assets/icons/close.png";
-  } else {
-    instruction.style.visibility = "hidden";
-    instructionBtn.children[0].src = "../src/assets/icons/question-mark-icon.png";
-  }
+  instructionTaggler()
+  if(isOptionVisible) optionTaggler()
 });
 
 startBtn.addEventListener("click", async () => {
@@ -136,7 +120,29 @@ function updateProgressBarBySignals(totalSignals, completedSignals) {
 };
 
 
-// "Start" button condition taggler block
+// Tagglers block
+
+function optionTaggler(){
+  isOptionVisible = !isOptionVisible;
+    if(isOptionVisible){
+      optionsList.style.visibility = "visible";
+      optionsBtn.children[0].src = "../src/assets/icons/close.png";
+    } else {
+      optionsList.style.visibility = "hidden";
+      optionsBtn.children[0].src = "../src/assets/icons/settings.png";
+  }
+};
+
+function instructionTaggler(){
+  isInstructionVisible = !isInstructionVisible;
+  if(isInstructionVisible ){
+    instruction.style.visibility = "visible";
+    instructionBtn.children[0].src = "../src/assets/icons/close.png";
+  } else {
+    instruction.style.visibility = "hidden";
+    instructionBtn.children[0].src = "../src/assets/icons/question-mark-icon.png";
+  }
+};
 
 function buttonTaggler() {
   isWork = !isWork;
