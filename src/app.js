@@ -126,10 +126,10 @@ function optionTaggler(){
   isOptionVisible = !isOptionVisible;
     if(isOptionVisible){
       optionsList.style.visibility = "visible";
-      optionsBtn.style.backgroundImage = "url(../src/assets/icons/close.png)" ;
+      optionsBtn.style.backgroundImage = "url(./src/assets/icons/close.png)" ;
     } else {
       optionsList.style.visibility = "hidden";
-      optionsBtn.style.backgroundImage  = "url(../src/assets/icons/settings.png)";
+      optionsBtn.style.backgroundImage  = "url(./src/assets/icons/settings.png)";
   }
 };
 
@@ -137,10 +137,10 @@ function instructionTaggler(){
   isInstructionVisible = !isInstructionVisible;
   if(isInstructionVisible ){
     instruction.style.visibility = "visible";
-    instructionBtn.style.backgroundImage = "url(../src/assets/icons/close.png)";
+    instructionBtn.style.backgroundImage = "url(./src/assets/icons/close.png)";
   } else {
     instruction.style.visibility = "hidden";
-    instructionBtn.style.backgroundImage = "url(../src/assets/icons/question-mark-icon.png)";
+    instructionBtn.style.backgroundImage = "url(./src/assets/icons/question-mark-icon.png)";
   }
 };
 
