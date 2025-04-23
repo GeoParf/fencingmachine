@@ -96,7 +96,7 @@ body {
   text-align: center;
   position: relative;
   background-size: 29%;
-  background-position-x: 50%;
+  background-position: center;
   background-repeat: no-repeat;
   background-image: url("../assets/icons/settings.png");
 }
@@ -147,7 +147,7 @@ body {
   text-align: center;
   position: relative;
   background-size: 29%;
-  background-position-x: 50%;
+  background-position: center;
   background-repeat: no-repeat;
   background-image: url("../assets/icons/question-mark-icon.png");
 }
