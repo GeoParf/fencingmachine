@@ -135,7 +135,16 @@ function updateProgressBarBySignals(totalSignals, completedSignals) {
   progressBarElement.style.width = `${Math.min(progress, 100)}%`;
 };
 
-// Start exercise block
+
+// "Start" button condition taggler block
+
+function buttonTaggler() {
+  isWork = !isWork;
+  isWork ? startBtn.style.backgroundColor = "red" : startBtn.style.backgroundColor = "green";
+  isWork ? startBtn.innerText = "Stop" : startBtn.innerText = "Start";
+};
+
+// Exercise condition block
 
 async function countdown () {
   let counter = 5;
@@ -152,25 +161,9 @@ async function countdown () {
   }, 1000);
 };
 
-async function startExercise(){ 
-  _stopExerciseId = setTimeout(() => { stopExersice() }, options.exerciseDuration );
-
-  for (let i=0; i <= numberOfActions - 1; i++) {
-    const color = await startTimerForNextSignal(getColor()); 
-
-    updateProgressBarBySignals(numberOfActions, i + 1);
-
-    if (i <= numberOfActions -1 && maxColors >=5 ) {
-      makeDouble(color, i);
-    } 
-    else if (i <= numberOfActions -1 && maxColors <= 4 ) {
-      makeSimple(color, i);
-    }
-  };
-};
-
 async function startTimerForNextSignal(color) { 
   const timeoutTime = getRandom(options.exerciseTimeout, maxTimerDurationForOneSignal);
+  
   return new Promise((resolve) => {
       _nextTickID = setTimeout(() => { resolve(color) }, timeoutTime);
   })
@@ -219,12 +212,14 @@ function setColor(colorOfSignal){
 
 // Sound managment block
 
-function playRing(nameOfColorString) {
-  rings.src = `${SOUNDS_PATH}${nameOfColorString}.wav`;  
-  if(isSoundOn) rings.play(); 
+function playRing(nameOfColorString) { 
+  if(isSoundOn) {
+    rings.src = `${SOUNDS_PATH}${nameOfColorString}.wav`; 
+    rings.play();  
+  }
 };
 
-// Stop exercise block
+// Stop exercise function
 
 function stopExersice () {
   clearInterval(_counterID);
@@ -236,14 +231,25 @@ function stopExersice () {
   buttonTaggler();
   numberOfActions = getRandom(options.minExercise, options.maxExercise);
   maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
-   playRing("red");
-   progressBarElement.style.width = `0%`;
+  playRing("red");
+  progressBarElement.style.width = `0%`;
 };
 
-// "Start" button condition taggler block
+// Start exercise function
+async function startExercise(){ 
+  _stopExerciseId = setTimeout(() => { stopExersice() }, options.exerciseDuration );  
 
-function buttonTaggler() {
-  isWork = !isWork;
-  isWork ? startBtn.style.backgroundColor = "red" : startBtn.style.backgroundColor = "green";
-  isWork ? startBtn.innerText = "Stop" : startBtn.innerText = "Start";
+  for (let i=0; i <= numberOfActions - 1; i++) {
+    const color = await startTimerForNextSignal(getColor()); 
+
+    updateProgressBarBySignals(numberOfActions, i + 1);
+
+    if (i <= numberOfActions -1 && maxColors >=5 ) {
+      makeDouble(color, i);
+    } 
+    else if (i <= numberOfActions -1 && maxColors <= 4 ) {
+      makeSimple(color, i);
+    }
+  };
+ 
 };
