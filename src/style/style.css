@@ -92,17 +92,17 @@ body {
 
 .options{
   width: 25%;
+  height: 25px;
   text-align: center;
   position: relative;
+  background-size: 29%;
+  background-position-x: 50%;
+  background-repeat: no-repeat;
+  background-image: url("../assets/icons/settings.png");
 }
 
 .options:hover {
   cursor: pointer;
-}
-
-.options img {
-  height: 25px;
-  width: 25px;
 }
 
 .options-list{
@@ -143,18 +143,18 @@ body {
 
 .questmark {
   width: 25%;
+  height: 25px;
   text-align: center;
+  position: relative;
+  background-size: 29%;
+  background-position-x: 50%;
+  background-repeat: no-repeat;
+  background-image: url("../assets/icons/question-mark-icon.png");
 }
 
 .questmark:hover{
   cursor: pointer;
 }
-
-.questmark img {
-  height: 25px;
-  width: 25px;
-}
-
 
 .signalArea {
   display: flex;
