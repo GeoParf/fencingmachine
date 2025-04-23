@@ -126,10 +126,10 @@ function optionTaggler(){
   isOptionVisible = !isOptionVisible;
     if(isOptionVisible){
       optionsList.style.visibility = "visible";
-      optionsBtn.children[0].src = "../src/assets/icons/settings.png";
+      optionsBtn.children[0].src = "../../src/assets/icons/settings.png";
     } else {
       optionsList.style.visibility = "hidden";
-      optionsBtn.children[0].src = "../src/assets/icons/settings.png";
+      optionsBtn.children[0].src = "../../src/assets/icons/settings.png";
   }
 };
 
