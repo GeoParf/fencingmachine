@@ -81,7 +81,8 @@ body {
 .sound {
   height: 25px;
   width: 25% ;
-  background: no-repeat;
+  border-radius: 3px;
+  background-repeat: no-repeat;
   background-position: center;
   background-image: url("../assets/icons/audio.svg");
 }
@@ -265,7 +266,7 @@ body {
 
 .progress-container {
   width: 100%;
-  background-color: #e0e0e0;
+  background-color: width;
   height: 20px;
   overflow: hidden;
   margin-top: 10px;

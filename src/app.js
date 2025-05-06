@@ -29,15 +29,13 @@ const rings = new Audio(`${SOUNDS_PATH}red.wav`);
 
 const options = {
   "exerciseDuration" : +optionsElements[0].value * MILLISEC_IN_SEC,
-  "exerciseTimeout" : +optionsElements[1].value * MILLISEC_IN_SEC,
-  "minExercise" : +optionsElements[2].value,
-  "maxExercise" : +optionsElements[3].value,
+  "minimumSignalTimeout" : +optionsElements[1].value * MILLISEC_IN_SEC,
+  "maximumSignalTimeout" : +optionsElements[2].value * MILLISEC_IN_SEC,
 };
 
 // Variables block
 
-let numberOfActions = getRandom(options.minExercise, options.maxExercise);
-let maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
+let nextTick = 0;
 
 let isWork = false;
 let isSoundOn = true;
@@ -49,6 +47,7 @@ let _counterID; // ID for counter setInterval
 let _nextTickID; // ID for next exersice setTimeout
 let _startDelayID; // ID for delay for countdaun befor start setTimeout
 let _stopExerciseId; // ID for stop exersice setTimeout
+let _progressInterval // ID for Progress bar setInterval
 
 // Event listeners block
 
@@ -75,12 +74,16 @@ instructionBtn.addEventListener("click", () => {
 });
 
 startBtn.addEventListener("click", async () => {
+
+  optionsList.style.visibility = "hidden";
+  optionsBtn.style.backgroundImage  = "url(./src/assets/icons/settings.png)";
+
   playRing("click");
   if(isWork){
     stopExersice();
     return;
   }
-  buttonTaggler();
+  startButtonTaggler();
   await countdown();
   _startDelayID = setTimeout(() => {
     startExercise();
@@ -99,7 +102,7 @@ soundIcon.addEventListener("click", () => {
 optionsElements.forEach((element) => {
   element.addEventListener('change', () => {
     if(element.value < 0) {element.value = 0};
-    if(element.id === "exerciseDuration" || element.id === "exerciseTimeout") {
+    if(element.id === "exerciseDuration" || element.id === "minimumSignalTimeout") {
       options[element.id] = (+element.value * MILLISEC_IN_SEC);
     }
     else {
@@ -144,7 +147,7 @@ function instructionTaggler(){
   }
 };
 
-function buttonTaggler() {
+function startButtonTaggler() {
   isWork = !isWork;
   isWork ? startBtn.style.backgroundColor = "red" : startBtn.style.backgroundColor = "green";
   isWork ? startBtn.innerText = "Stop" : startBtn.innerText = "Start";
@@ -164,15 +167,7 @@ async function countdown () {
       countdownEl.innerText = "";
       return;
     }
-  }, 1000);
-};
-
-async function startTimerForNextSignal(color) { 
-  const timeoutTime = getRandom(options.exerciseTimeout, maxTimerDurationForOneSignal);
-  
-  return new Promise((resolve) => {
-      _nextTickID = setTimeout(() => { resolve(color) }, timeoutTime);
-  })
+  }, MILLISEC_IN_SEC);
 };
 
 function makeSimple(color) {
@@ -228,34 +223,50 @@ function playRing(nameOfColorString) {
 // Stop exercise function
 
 function stopExersice () {
+  nextTick = 0;
+  clearInterval(_progressInterval);
   clearInterval(_counterID);
   countdownEl.innerText = "";
   clearTimeout(_nextTickID);
   clearTimeout(_startDelayID);
   clearTimeout(_stopExerciseId);
   setColor("white");
-  buttonTaggler();
-  numberOfActions = getRandom(options.minExercise, options.maxExercise);
-  maxTimerDurationForOneSignal = options.exerciseDuration/numberOfActions;
+  startButtonTaggler();
   playRing("red");
   progressBarElement.style.width = `0%`;
 };
 
 // Start exercise function
-async function startExercise(){ 
-  _stopExerciseId = setTimeout(() => { stopExersice() }, options.exerciseDuration );  
 
-  for (let i=0; i <= numberOfActions - 1; i++) {
-    const color = await startTimerForNextSignal(getColor()); 
+async function startExercise() {
 
-    updateProgressBarBySignals(numberOfActions, i + 1);
+  nextTick = Math.round(getRandom(options.minimumSignalTimeout, options.maximumSignalTimeout) / MILLISEC_IN_SEC);
 
-    if (i <= numberOfActions -1 && maxColors >=5 ) {
-      makeDouble(color, i);
-    } 
-    else if (i <= numberOfActions -1 && maxColors <= 4 ) {
-      makeSimple(color, i);
+  _stopExerciseId = setTimeout(() => { stopExersice() }, options.exerciseDuration);
+
+  const startTime = Date.now();
+
+  const formatedMinimumSignalTimeout = Math.round(options.minimumSignalTimeout / MILLISEC_IN_SEC)
+
+  _progressInterval = setInterval(async() => {
+    
+    const elapsedTime = Date.now() - startTime;
+    const formatedElapsedTime = Math.round((elapsedTime)/ MILLISEC_IN_SEC)
+    
+    updateProgressBarBySignals(options.exerciseDuration, elapsedTime);
+  
+    if(nextTick === formatedElapsedTime) {
+      const color = getColor();
+      nextTick = getRandom(formatedElapsedTime + formatedMinimumSignalTimeout, formatedElapsedTime + options.maximumSignalTimeout / MILLISEC_IN_SEC);
+     
+      if (maxColors >= 5) {
+        makeDouble(color);
+      } else if (maxColors <= 4) {
+        makeSimple(color);
+      }
     }
-  };
+    
+    if (elapsedTime >= options.exerciseDuration) clearInterval(_progressInterval);
  
-};
+  }, MILLISEC_IN_SEC); // Update progress every 1000ms
+}

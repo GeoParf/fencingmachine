@@ -31,13 +31,11 @@
         </div>
       </div>
 
-      <div class="sound"></div>
+        <div class="sound"></div>
 
-      <div class="options">
-      </div>
+        <div class="options"></div>
 
-      <div class="questmark">
-      </div>
+      <div class="questmark"></div>
     </div>
 
     <!-- Progress-bar -->
@@ -102,22 +100,16 @@
           </li>
 
           <li><div class="option-item">
-            <label for="exerciseTimeout">Min timeout betwin actions:</label>
-            <input type="number" placeholder="5" value="5" id="exerciseTimeout" maxlength="2">
+            <label for="minimumSignalTimeout">Min timeout betwin actions:</label>
+            <input type="number" placeholder="5" value="5" id="minimumSignalTimeout" maxlength="2">
             <p>sec</p>
           </li>
 
           <li><div class="option-item">
-            <label for="minExercise">Min number of action:</label>
-            <input type="number" placeholder="5" value="5" id="minExercise" maxlength="2">
-            <p></p>
+            <label for="maximumSignalTimeout">Max timeout betwin actions:</label>
+            <input type="number" placeholder="10" value="10" id="maximumSignalTimeout" maxlength="2">
+            <p>sec</p>
           </li>
-          
-          <li><div class="option-item">
-            <label for="maxExercise">Max number of action:</label>
-            <input type="number" placeholder="10" value="10" id="maxExercise" maxlength="2">
-            <p></p>
-          </li>  
         </ul>
       </div>
 
@@ -136,8 +128,9 @@
           <h4>Exercise adjustments </h4>
           <p>You can click on <img id="instruction-img-gear" src="./src/assets/icons/settings.png"/> to change the exercise settings such as: </p>
             <p>Duration of the exercise;</p>
-            <p>The number of repetitions during the exercise;</p>
+            <p>The minimum time between signals.</p>
             <p>The maximum time between signals.</p> 
+
         </article>
       </div>
       
