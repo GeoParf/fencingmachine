@@ -78,13 +78,13 @@ startBtn.addEventListener("click", async () => {
   optionsList.style.visibility = "hidden";
   optionsBtn.style.backgroundImage  = "url(./src/assets/icons/settings.png)";
 
-  playRing("click");
+  await playRing("click");
   if(isWork){
     stopExersice();
     return;
   }
   startButtonTaggler();
-  await countdown();
+  countdown();
   _startDelayID = setTimeout(() => {
     startExercise();
   }, 4000);
@@ -155,14 +155,17 @@ function startButtonTaggler() {
 
 // Exercise condition block
 
-async function countdown () {
-  let counter = 5;
-  _counterID = setInterval(()=> {
-    counter--;
-    countdownEl.innerText = counter - 1;
-    if (counter === 1) countdownEl.innerText = "GO";
-    if (counter === 0) {
-      playRing("red");
+function countdown () {
+  let counter = 0;
+  const readySet = ['AN GUARD', 'READY']
+  _counterID = setInterval(async ()=> { 
+    countdownEl.innerText = readySet[counter];
+    ++counter;    
+    if (counter === 3) {
+      countdownEl.innerText = "FENCE!!!";
+      await playRing("red");
+    };
+    if (counter === 4) {
       clearInterval(_counterID);
       countdownEl.innerText = "";
       return;
@@ -170,26 +173,26 @@ async function countdown () {
   }, MILLISEC_IN_SEC);
 };
 
-function makeSimple(color) {
-  playRing(color);
+async function makeSimple(color) {
+  await playRing(color);
   
   setTimeout(() => { setColor(color);}, 150);
   setTimeout(() => { setColor("white")}, 650);
 };
 
-function makeDouble(color) {
+async function makeDouble(color) {
   setColor("red");
-  playRing("red");
+  await playRing("red");
 
   setTimeout(() => { setColor("white")}, 200)
   setTimeout(async () => {
-    playRing(color);
+    await playRing(color);
     setColor(color);
   },700)
   setTimeout(() => { setColor("white")}, 1300);
 };
 
-// Color menagment block
+// Color managment block
 
 function getColor() { // returns string name of color
   if (maxColors <= 4) {
@@ -213,16 +216,16 @@ function setColor(colorOfSignal){
 
 // Sound managment block
 
-function playRing(nameOfColorString) { 
+async function playRing(nameOfColorString) { 
   if(isSoundOn) {
     rings.src = `${SOUNDS_PATH}${nameOfColorString}.wav`; 
-    rings.play();  
+    await rings.play();  
   }
 };
 
 // Stop exercise function
 
-function stopExersice () {
+async function stopExersice () {
   nextTick = 0;
   clearInterval(_progressInterval);
   clearInterval(_counterID);
@@ -232,7 +235,7 @@ function stopExersice () {
   clearTimeout(_stopExerciseId);
   setColor("white");
   startButtonTaggler();
-  playRing("red");
+  await playRing("red");
   progressBarElement.style.width = `0%`;
 };
 
@@ -246,7 +249,8 @@ async function startExercise() {
 
   const startTime = Date.now();
 
-  const formatedMinimumSignalTimeout = Math.round(options.minimumSignalTimeout / MILLISEC_IN_SEC)
+  const formatedMinimumSignalTimeout = Math.round(options.minimumSignalTimeout / MILLISEC_IN_SEC);
+  const formatedMaximumSignalTimeout = Math.round(options.maximumSignalTimeout / MILLISEC_IN_SEC);
 
   _progressInterval = setInterval(async() => {
     
@@ -257,12 +261,12 @@ async function startExercise() {
   
     if(nextTick === formatedElapsedTime) {
       const color = getColor();
-      nextTick = getRandom(formatedElapsedTime + formatedMinimumSignalTimeout, formatedElapsedTime + options.maximumSignalTimeout / MILLISEC_IN_SEC);
+      nextTick = (formatedElapsedTime ) + getRandom( formatedMinimumSignalTimeout, formatedMaximumSignalTimeout);
      
       if (maxColors >= 5) {
-        makeDouble(color);
+        await makeDouble(color);
       } else if (maxColors <= 4) {
-        makeSimple(color);
+        await makeSimple(color);
       }
     }
     
