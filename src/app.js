@@ -35,8 +35,6 @@ const options = {
 
 // Variables block
 
-let nextTick = 0;
-
 let isWork = false;
 let isSoundOn = true;
 let isOptionVisible = false;
@@ -44,7 +42,6 @@ let isSelectVisible = false;
 let isInstructionVisible = false;
 let maxColors = 1;
 let _counterID; // ID for counter setInterval
-let _nextTickID; // ID for next exersice setTimeout
 let _startDelayID; // ID for delay for countdaun befor start setTimeout
 let _stopExerciseId; // ID for stop exersice setTimeout
 let _progressInterval // ID for Progress bar setInterval
@@ -117,8 +114,8 @@ function getRandom (min = 1, max = 5){
   return Math.floor((Math.random() * (max-min) + min));
 };
 
-function updateProgressBarBySignals(totalSignals, completedSignals) {
-  const progress = (completedSignals / totalSignals) * 100;
+function updateProgressBar(totalTime, elapsedTime) {
+  const progress = (elapsedTime / totalTime) * 100;
   progressBarElement.style.width = `${Math.min(progress, 100)}%`;
 };
 
@@ -226,11 +223,9 @@ async function playRing(nameOfColorString) {
 // Stop exercise function
 
 async function stopExersice () {
-  nextTick = 0;
   clearInterval(_progressInterval);
   clearInterval(_counterID);
   countdownEl.innerText = "";
-  clearTimeout(_nextTickID);
   clearTimeout(_startDelayID);
   clearTimeout(_stopExerciseId);
   setColor("white");
@@ -242,26 +237,24 @@ async function stopExersice () {
 // Start exercise function
 
 async function startExercise() {
-
-  nextTick = Math.round(getRandom(options.minimumSignalTimeout, options.maximumSignalTimeout) / MILLISEC_IN_SEC);
-
   _stopExerciseId = setTimeout(() => { stopExersice() }, options.exerciseDuration);
 
   const startTime = Date.now();
 
   const formatedMinimumSignalTimeout = Math.round(options.minimumSignalTimeout / MILLISEC_IN_SEC);
   const formatedMaximumSignalTimeout = Math.round(options.maximumSignalTimeout / MILLISEC_IN_SEC);
+  let nextTick = getRandom(formatedMinimumSignalTimeout, formatedMaximumSignalTimeout);
 
   _progressInterval = setInterval(async() => {
     
     const elapsedTime = Date.now() - startTime;
     const formatedElapsedTime = Math.round((elapsedTime)/ MILLISEC_IN_SEC)
     
-    updateProgressBarBySignals(options.exerciseDuration, elapsedTime);
+    updateProgressBar(options.exerciseDuration, elapsedTime);
   
     if(nextTick === formatedElapsedTime) {
       const color = getColor();
-      nextTick = (formatedElapsedTime ) + getRandom( formatedMinimumSignalTimeout, formatedMaximumSignalTimeout);
+      nextTick = (formatedElapsedTime) + getRandom( formatedMinimumSignalTimeout, formatedMaximumSignalTimeout);
      
       if (maxColors >= 5) {
         await makeDouble(color);
