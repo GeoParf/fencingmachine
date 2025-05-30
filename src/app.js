@@ -181,11 +181,11 @@ async function makeDouble(color) {
   setColor("red");
   await playRing("red");
 
-  setTimeout(() => { setColor("white")}, 200)
+  setTimeout(() => { setColor("white")}, 100)
   setTimeout(async () => {
     await playRing(color);
     setColor(color);
-  },700)
+  },600)
   setTimeout(() => { setColor("white")}, 1300);
 };
 
